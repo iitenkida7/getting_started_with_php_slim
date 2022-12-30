@@ -10,6 +10,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
+use Slim\Views\Twig;
 
 abstract class Action
 {
@@ -55,6 +56,11 @@ abstract class Action
     protected function getFormData()
     {
         return $this->request->getParsedBody();
+    }
+
+    protected function view(string $templateName, array $data): Response
+    {
+        return Twig::fromRequest($this->request)->render($this->response, $templateName, $data);
     }
 
     /**
